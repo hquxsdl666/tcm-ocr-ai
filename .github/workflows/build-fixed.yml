@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK (Fixed)
 
 on:
   push:
@@ -8,42 +8,42 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-ECHO is off.
-    - name: Fix line endings and permissions
-      run: |
-        echo "Fixing gradlew line endings..."
-        tr -d '\r' < gradlew > gradlew.tmp
-        mv gradlew.tmp gradlew
-        chmod +x gradlew
-        echo "Fixed. First 5 lines:"
-        head -5 gradlew
-ECHO is off.
+    
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
-ECHO is off.
+    
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
-ECHO is off.
-    - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace
-ECHO is off.
-    - name: Build Release APK
-      run: ./gradlew assembleRelease --stacktrace
-ECHO is off.
+    
+    # 直接使用 Gradle，不使用 gradlew 脚本
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: '8.4'
+    
+    - name: Build Debug APK with Gradle
+      run: gradle assembleDebug --stacktrace
+      working-directory: ./
+      
+    - name: Build Release APK with Gradle
+      run: gradle assembleRelease --stacktrace
+      working-directory: ./
+    
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
-ECHO is off.
+        
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:

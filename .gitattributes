@@ -1,11 +1,11 @@
 # 自动处理行尾符
 * text=auto
 
-# Gradle脚本使用LF换行符（Unix风格）
+# Gradle 脚本使用 LF 换行符
 *.sh text eol=lf
 gradlew text eol=lf
 
-# Windows批处理脚本使用CRLF
+# Windows 脚本使用 CRLF
 *.bat text eol=crlf
 *.cmd text eol=crlf
 
@@ -13,9 +13,3 @@ gradlew text eol=lf
 *.jar binary
 *.png binary
 *.jpg binary
-*.jpeg binary
-*.gif binary
-*.ico binary
-*.so binary
-*.dll binary
-*.exe binary
