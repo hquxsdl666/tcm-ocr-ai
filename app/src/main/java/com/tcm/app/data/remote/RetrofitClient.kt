@@ -20,7 +20,7 @@ object RetrofitClient {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(Constants.DEEPSEEK_BASE_URL)
+        .baseUrl(Constants.KIMI_BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
