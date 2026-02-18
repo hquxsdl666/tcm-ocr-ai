@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <full-backup-content>
+    <!-- 备份所有共享偏好设置 -->
     <include domain="sharedpref" path="."/>
+    <!-- 排除包含敏感信息的文件 -->
     <exclude domain="sharedpref" path="tcm_prefs.xml"/>
-    <exclude domain="database" path="tcm_database"/>
 </full-backup-content>
