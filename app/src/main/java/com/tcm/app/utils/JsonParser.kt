@@ -6,7 +6,8 @@ import com.google.gson.reflect.TypeToken
 import com.tcm.app.data.remote.model.OcrResult
 
 object JsonParser {
-    private val gson = Gson()
+    @PublishedApi
+    internal val gson = Gson()
 
     fun parseOcrResult(jsonString: String): OcrResult? {
         return try {

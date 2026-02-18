@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.tcm.app.ui.components.*
 import com.tcm.app.ui.viewmodel.PrescriptionViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
     viewModel: PrescriptionViewModel,

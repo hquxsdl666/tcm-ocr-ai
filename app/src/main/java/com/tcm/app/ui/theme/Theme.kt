@@ -40,14 +40,7 @@ private val LightColorScheme = lightColorScheme(
     inverseOnSurface = TcmInverseOnSurface,
     inversePrimary = TcmInversePrimary,
     scrim = TcmScrim,
-    surfaceTint = TcmPrimary,
-    surfaceBright = Color(0xFFFDFCF7),
-    surfaceContainer = Color(0xFFF4F2EB),
-    surfaceContainerHigh = Color(0xFFEEEBE4),
-    surfaceContainerHighest = Color(0xFFE8E5DE),
-    surfaceContainerLow = Color(0xFFFAF8F1),
-    surfaceContainerLowest = Color(0xFFFFFFFF),
-    surfaceDim = Color(0xFFDDDAD3)
+    surfaceTint = TcmPrimary
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -79,20 +72,13 @@ private val DarkColorScheme = darkColorScheme(
     inverseOnSurface = Color(0xFF31302C),
     inversePrimary = TcmPrimary,
     scrim = TcmScrim,
-    surfaceTint = TcmInversePrimary,
-    surfaceBright = Color(0xFF3A3835),
-    surfaceContainer = Color(0xFF272622),
-    surfaceContainerHigh = Color(0xFF31302C),
-    surfaceContainerHighest = Color(0xFF3C3A37),
-    surfaceContainerLow = Color(0xFF1C1B18),
-    surfaceContainerLowest = Color(0xFF11100E),
-    surfaceDim = Color(0xFF1C1B18)
+    surfaceTint = TcmInversePrimary
 )
 
 @Composable
 fun TcmOcrAiTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false, // Disabled for consistent TCM theming
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

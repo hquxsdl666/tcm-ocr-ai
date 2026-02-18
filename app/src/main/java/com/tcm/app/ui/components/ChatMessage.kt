@@ -1,5 +1,6 @@
 package com.tcm.app.ui.components
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -107,15 +109,15 @@ fun TypingIndicator(modifier: Modifier = Modifier) {
 
 @Composable
 private fun TypingDot(delayMillis: Int) {
-    val infiniteTransition = androidx.compose.animation.core.rememberInfiniteTransition(label = "")
+    val infiniteTransition = rememberInfiniteTransition(label = "typing")
     val scale by infiniteTransition.animateFloat(
         initialValue = 0.5f,
         targetValue = 1f,
-        animationSpec = androidx.compose.animation.core.infiniteRepeatable(
-            animation = androidx.compose.animation.core.tween(500, delayMillis),
-            repeatMode = androidx.compose.animation.core.RepeatMode.Reverse
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, delayMillis),
+            repeatMode = RepeatMode.Reverse
         ),
-        label = ""
+        label = "typing dot"
     )
     
     Box(

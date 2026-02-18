@@ -46,7 +46,16 @@ class PrescriptionViewModel(
         viewModelScope.launch {
             repository.getPrescriptionWithDetails(id)
                 .collect { details ->
-                    _uiState.update { it.copy(selectedPrescription = details) }
+                    details?.let {
+                        _uiState.update { state ->
+                            state.copy(selectedPrescription = PrescriptionWithDetails(
+                                prescription = it.prescription,
+                                herbs = it.herbs,
+                                usageInstruction = it.usageInstruction,
+                                symptoms = it.symptoms
+                            ))
+                        }
+                    }
                 }
         }
     }
@@ -87,7 +96,7 @@ class PrescriptionViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     data class PrescriptionUiState(
-        val selectedPrescription: PrescriptionRepository.PrescriptionWithDetails? = null,
+        val selectedPrescription: PrescriptionWithDetails? = null,
         val isLoading: Boolean = false,
         val error: String? = null
     )

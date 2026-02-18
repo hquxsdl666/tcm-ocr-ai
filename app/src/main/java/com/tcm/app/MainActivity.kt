@@ -156,7 +156,7 @@ fun TcmNavHost(
                         navigationIcon = {
                             androidx.compose.material3.IconButton(onClick = { navController.popBackStack() }) {
                                 androidx.compose.material3.Icon(
-                                    androidx.compose.material.icons.Icons.Default.ArrowBack,
+                                    androidx.compose.material.icons.automirrored.filled.ArrowBack,
                                     contentDescription = "返回"
                                 )
                             }

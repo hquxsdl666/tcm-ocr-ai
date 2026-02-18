@@ -115,7 +115,7 @@ fun PrescriptionDetailScreen(
                         color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    HorizontalDivider()
+                    Divider()
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 
@@ -149,7 +149,7 @@ fun PrescriptionDetailScreen(
                                 color = MaterialTheme.colorScheme.primary
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            HorizontalDivider()
+                            Divider()
                             Spacer(modifier = Modifier.height(8.dp))
 
                             if (usage.decoctionMethod.isNotEmpty()) {
@@ -195,7 +195,7 @@ fun PrescriptionDetailScreen(
                             color = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        HorizontalDivider()
+                        Divider()
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Card(
