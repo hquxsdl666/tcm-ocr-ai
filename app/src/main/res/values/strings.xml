@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">中药智能识别</string>
+    <string name="app_name_full">中药智能识别与AI方剂系统</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">首页</string>
+    <string name="nav_search">搜索</string>
+    <string name="nav_ai">AI助手</string>
+    <string name="nav_settings">设置</string>
+    
+    <!-- Actions -->
+    <string name="action_save">保存</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_delete">删除</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_share">分享</string>
+    <string name="action_search">搜索</string>
+    <string name="action_add">添加</string>
+    <string name="action_camera">拍照</string>
+    <string name="action_gallery">相册</string>
+    
+    <!-- OCR -->
+    <string name="ocr_title">识别药方</string>
+    <string name="ocr_capture_hint">拍摄或选择中药药方图片</string>
+    <string name="ocr_recognizing">正在识别...</string>
+    <string name="ocr_confidence">识别置信度: %d%%</string>
+    
+    <!-- Prescription -->
+    <string name="prescription_name">方剂名称</string>
+    <string name="prescription_herbs">药材组成</string>
+    <string name="prescription_usage">用法用量</string>
+    <string name="prescription_indications">主治功效</string>
+    <string name="herb_name">药材名称</string>
+    <string name="herb_dosage">剂量</string>
+    <string name="herb_preparation">炮制</string>
+    <string name="decoction_method">煎煮方法</string>
+    <string name="frequency">服用频次</string>
+    <string name="dosage_per_time">每次用量</string>
+    <string name="precautions">注意事项</string>
+    
+    <!-- AI -->
+    <string name="ai_title">AI中医助手</string>
+    <string name="ai_input_hint">输入问题...</string>
+    <string name="ai_recommendation">AI开方</string>
+    <string name="ai_symptoms">主要症状</string>
+    <string name="ai_constitution">体质类型</string>
+    <string name="ai_age_gender">年龄性别</string>
+    
+    <!-- Settings -->
+    <string name="settings_api_key">DeepSeek API Key</string>
+    <string name="settings_api_key_hint">输入您的 API Key</string>
+    <string name="settings_api_key_help">访问 platform.deepseek.com 获取 API Key\n新用户有10元免费额度</string>
+    
+    <!-- Messages -->
+    <string name="msg_save_success">保存成功</string>
+    <string name="msg_delete_confirm">确定要删除这个方剂吗？</string>
+    <string name="msg_empty_prescriptions">暂无方剂记录</string>
+    <string name="msg_empty_search">未找到相关方剂</string>
+    <string name="msg_error_generic">出错了，请重试</string>
+    <string name="msg_error_network">网络错误，请检查网络连接</string>
+    <string name="msg_error_api_key">请先在设置中配置 API Key</string>
+    
+    <!-- Disclaimer -->
+    <string name="disclaimer">免责声明：本应用提供的AI建议仅供参考，不构成医疗诊断或治疗建议。具体用药请咨询专业医师。</string>
+</resources>
