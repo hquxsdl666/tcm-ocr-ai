@@ -18,13 +18,10 @@ class PrescriptionViewModel(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
-    // Type alias for convenience
-    typealias PrescriptionWithDetails = PrescriptionRepository.PrescriptionWithDetails
-
-    val allPrescriptions: StateFlow<List<PrescriptionWithDetails>> = repository.getAllPrescriptions()
+    val allPrescriptions: StateFlow<List<PrescriptionRepository.PrescriptionWithDetails>> = repository.getAllPrescriptions()
         .map { prescriptions ->
             prescriptions.map { p ->
-                PrescriptionWithDetails(
+                PrescriptionRepository.PrescriptionWithDetails(
                     prescription = p,
                     herbs = emptyList(),
                     usageInstruction = null,
@@ -34,7 +31,7 @@ class PrescriptionViewModel(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val searchResults: StateFlow<List<PrescriptionWithDetails>> = _searchQuery
+    val searchResults: StateFlow<List<PrescriptionRepository.PrescriptionWithDetails>> = _searchQuery
         .debounce(300)
         .flatMapLatest { query ->
             if (query.isBlank()) {
@@ -90,7 +87,7 @@ class PrescriptionViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     data class PrescriptionUiState(
-        val selectedPrescription: PrescriptionWithDetails? = null,
+        val selectedPrescription: PrescriptionRepository.PrescriptionWithDetails? = null,
         val isLoading: Boolean = false,
         val error: String? = null
     )
