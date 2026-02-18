@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
@@ -147,42 +149,42 @@ fun TcmNavHost(
             )
         }
         
+        @OptIn(ExperimentalMaterial3Api::class)
         composable("settings") {
-            // Settings screen placeholder
-            androidx.compose.material3.Scaffold(
+            Scaffold(
                 topBar = {
-                    androidx.compose.material3.TopAppBar(
-                        title = { androidx.compose.material3.Text("设置") },
+                    TopAppBar(
+                        title = { Text("设置") },
                         navigationIcon = {
-                            androidx.compose.material3.IconButton(onClick = { navController.popBackStack() }) {
-                                androidx.compose.material3.Icon(
-                                    androidx.compose.material.icons.automirrored.filled.ArrowBack,
+                            IconButton(onClick = { navController.popBackStack() }) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "返回"
                                 )
                             }
                         }
                     )
                 }
-            ) { padding ->
-                androidx.compose.foundation.layout.Column(
-                    modifier = androidx.compose.ui.Modifier
+            ) { paddingValues ->
+                Column(
+                    modifier = Modifier
                         .fillMaxSize()
-                        .padding(padding)
+                        .padding(paddingValues)
                         .padding(16.dp)
                 ) {
-                    androidx.compose.material3.Text(
+                    Text(
                         text = "设置",
-                        style = androidx.compose.material3.MaterialTheme.typography.headlineSmall
+                        style = MaterialTheme.typography.headlineSmall
                     )
-                    androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.height(16.dp))
-                    androidx.compose.material3.Text(
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
                         text = "请前往 AI助手 页面设置 DeepSeek API Key",
-                        style = androidx.compose.material3.MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium
                     )
-                    androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
-                    androidx.compose.material3.Text(
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
                         text = "获取方式：\n1. 访问 platform.deepseek.com\n2. 注册并创建 API Key\n3. 新用户有10元免费额度",
-                        style = androidx.compose.material3.MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             }

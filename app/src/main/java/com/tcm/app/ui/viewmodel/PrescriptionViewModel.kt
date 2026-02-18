@@ -18,12 +18,15 @@ class PrescriptionViewModel(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
+    // Type alias for convenience
+    typealias PrescriptionWithDetails = PrescriptionRepository.PrescriptionWithDetails
+
     val allPrescriptions: StateFlow<List<PrescriptionWithDetails>> = repository.getAllPrescriptions()
         .map { prescriptions ->
             prescriptions.map { p ->
                 PrescriptionWithDetails(
                     prescription = p,
-                    herbs = emptyList(), // Will be loaded on demand
+                    herbs = emptyList(),
                     usageInstruction = null,
                     symptoms = emptyList()
                 )
@@ -46,16 +49,7 @@ class PrescriptionViewModel(
         viewModelScope.launch {
             repository.getPrescriptionWithDetails(id)
                 .collect { details ->
-                    details?.let {
-                        _uiState.update { state ->
-                            state.copy(selectedPrescription = PrescriptionWithDetails(
-                                prescription = it.prescription,
-                                herbs = it.herbs,
-                                usageInstruction = it.usageInstruction,
-                                symptoms = it.symptoms
-                            ))
-                        }
-                    }
+                    _uiState.update { it.copy(selectedPrescription = details) }
                 }
         }
     }
@@ -99,12 +93,5 @@ class PrescriptionViewModel(
         val selectedPrescription: PrescriptionWithDetails? = null,
         val isLoading: Boolean = false,
         val error: String? = null
-    )
-
-    data class PrescriptionWithDetails(
-        val prescription: Prescription,
-        val herbs: List<Herb>,
-        val usageInstruction: UsageInstruction?,
-        val symptoms: List<Symptom> = emptyList()
     )
 }
