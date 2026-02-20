@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 // OCR Request/Response Models
 data class OcrRequest(
-    val model: String = "deepseek-chat",
+    val model: String = "moonshot-v1-8k",
     val messages: List<OcrMessage>,
     val temperature: Double = 0.1,
     val max_tokens: Int = 2000,
@@ -81,7 +81,7 @@ data class OcrUsage(
 
 // Chat Request/Response
 data class ChatRequest(
-    val model: String = "deepseek-chat",
+    val model: String = "moonshot-v1-8k",
     val messages: List<ChatMessage>,
     val temperature: Double = 0.7,
     val max_tokens: Int = 2000,
