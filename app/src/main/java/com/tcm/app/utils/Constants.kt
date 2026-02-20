@@ -2,7 +2,7 @@ package com.tcm.app.utils
 
 object Constants {
     // Kimi API (Moonshot) 配置
-    const val KIMI_BASE_URL = "https://api.moonshot.cn/v1/"
+    const val KIMI_BASE_URL = "https://api.moonshot.cn/"
     const val KIMI_MODEL = "moonshot-v1-8k"
     
     // 兼容旧代码的别名
