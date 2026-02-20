@@ -1,0 +1,45 @@
+name: Test Kimi API
+
+on:
+  workflow_dispatch:
+    inputs:
+      api_key:
+        description: 'Kimi API Key (可选，用于测试)'
+        required: false
+        type: string
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip install requests
+
+    - name: Run API Test
+      if: ${{ github.event.inputs.api_key != '' }}
+      run: python test_kimi_api.py "${{ github.event.inputs.api_key }}"
+      
+    - name: Show Test Instructions
+      if: ${{ github.event.inputs.api_key == '' }}
+      run: |
+        echo "========================================="
+        echo "Kimi API 测试"
+        echo "========================================="
+        echo ""
+        echo "要测试 API，请:"
+        echo "1. 点击 'Run workflow' 按钮"
+        echo "2. 输入您的 Kimi API Key"
+        echo "3. 点击 'Run workflow'"
+        echo ""
+        echo "获取 API Key: https://platform.moonshot.cn"
+        echo ""
+        echo "注意: API Key 不会保存在日志中"
