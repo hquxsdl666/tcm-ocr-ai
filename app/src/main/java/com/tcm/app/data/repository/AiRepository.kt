@@ -19,7 +19,7 @@ class AiRepository(
 ) {
     private fun getApiKey(): String {
         val prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(Constants.PREFS_API_KEY, "") ?: ""
+        return (prefs.getString(Constants.PREFS_API_KEY, "") ?: "").trim()
     }
 
     suspend fun performOcr(bitmap: Bitmap): Result<OcrResult> {
@@ -130,7 +130,7 @@ class AiRepository(
 
     suspend fun saveApiKey(apiKey: String) {
         val prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit().putString(Constants.PREFS_API_KEY, apiKey).apply()
+        prefs.edit().putString(Constants.PREFS_API_KEY, apiKey.trim()).apply()
     }
 
     fun getSavedApiKey(): String {

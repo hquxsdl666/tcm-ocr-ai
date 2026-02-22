@@ -1,13 +1,16 @@
 package com.tcm.app.utils
 
 object Constants {
-    // Kimi API (Moonshot) 配置
-    const val KIMI_BASE_URL = "https://api.moonshot.cn/"
-    const val KIMI_MODEL = "kimi-latest"
+    // MiniMax API 配置
+    const val MINIMAX_BASE_URL = "https://api.minimaxi.com/"
+    const val MINIMAX_MODEL_CHAT = "MiniMax-M2.5"
+    const val MINIMAX_MODEL_OCR = "MiniMax-Text-01"  // 多模态（图片）使用 Text-01
     
-    // 兼容旧代码的别名
-    const val DEEPSEEK_BASE_URL = KIMI_BASE_URL
-    const val DEEPSEEK_MODEL = KIMI_MODEL
+    // 兼容旧代码的别名（RetrofitClient 等仍引用 BASE_URL / MODEL）
+    const val KIMI_BASE_URL = MINIMAX_BASE_URL
+    const val KIMI_MODEL = MINIMAX_MODEL_CHAT
+    const val DEEPSEEK_BASE_URL = MINIMAX_BASE_URL
+    const val DEEPSEEK_MODEL = MINIMAX_MODEL_CHAT
     
     // OCR Prompt
     const val OCR_PROMPT = """你是一个专业的中药药方识别专家。请仔细识别这张药方图片，提取以下信息：
@@ -53,5 +56,5 @@ object Constants {
 
     const val DATABASE_NAME = "tcm_database"
     const val PREFS_NAME = "tcm_prefs"
-    const val PREFS_API_KEY = "deepseek_api_key"
+    const val PREFS_API_KEY = "minimax_api_key"
 }

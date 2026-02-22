@@ -89,8 +89,9 @@ class AiViewModel(
 
     fun saveApiKey(apiKey: String) {
         viewModelScope.launch {
-            aiRepository.saveApiKey(apiKey)
-            _apiKeyState.value = apiKey
+            val trimmed = apiKey.trim()
+            aiRepository.saveApiKey(trimmed)
+            _apiKeyState.value = trimmed
         }
     }
 

@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Kimi API 功能测试脚本
 用于验证 API Key 和基本功能是否正常
 """
-
 import sys
+import io
+# Windows 控制台 UTF-8 输出，避免 emoji 报错
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 import requests
 import json
 
@@ -65,7 +70,7 @@ def test_chat(api_key: str) -> bool:
     }
     
     data = {
-        "model": "kimi-latest",
+        "model": "moonshot-v1-128k",
         "messages": [
             {"role": "system", "content": "你是一个 helpful 的助手。"},
             {"role": "user", "content": "你好，请用一句话介绍自己。"}
@@ -115,7 +120,7 @@ def test_ocr_simulation(api_key: str) -> bool:
 请以JSON格式返回药材信息。"""
 
     data = {
-        "model": "kimi-latest",
+        "model": "moonshot-v1-128k",
         "messages": [
             {"role": "user", "content": ocr_prompt}
         ],
