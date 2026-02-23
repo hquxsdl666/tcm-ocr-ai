@@ -4,11 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 // OCR Request/Response Models
 data class OcrRequest(
-    val model: String = "MiniMax-Text-01",
+    val model: String = "moonshot-v1-8k-vision-preview",
     val messages: List<OcrMessage>,
     val temperature: Double = 0.1,
-    val max_tokens: Int = 2000,
-    val response_format: ResponseFormat? = null  // MiniMax-Text-01 仅支持 json_schema，不传则靠 prompt 约束 JSON
+    val max_tokens: Int = 2000
 )
 
 data class OcrMessage(
@@ -83,7 +82,7 @@ data class OcrUsage(
 
 // Chat Request/Response
 data class ChatRequest(
-    val model: String = "MiniMax-M2.5",
+    val model: String = "moonshot-v1-8k",
     val messages: List<ChatMessage>,
     val temperature: Double = 0.7,
     val max_tokens: Int = 2000,

@@ -6,15 +6,15 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface DeepSeekApi {
-    /** MiniMax 多模态（图片识别）使用 chatcompletion_v2 + MiniMax-Text-01 */
-    @POST("v1/text/chatcompletion_v2")
+    /** Kimi 视觉识别（图片 OCR）使用 moonshot-v1-8k-vision-preview */
+    @POST("v1/chat/completions")
     suspend fun performOcr(
         @Header("Authorization") authorization: String,
         @Body request: OcrRequest
     ): OcrResponse
 
-    /** MiniMax 文本对话使用 MiniMax-M2.5 */
-    @POST("v1/text/chatcompletion_v2")
+    /** Kimi 文本对话使用 moonshot-v1-8k */
+    @POST("v1/chat/completions")
     suspend fun sendChatMessage(
         @Header("Authorization") authorization: String,
         @Body request: ChatRequest

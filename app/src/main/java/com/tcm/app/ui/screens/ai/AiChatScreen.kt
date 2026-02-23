@@ -331,11 +331,11 @@ private fun ApiKeyDialog(
     
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("设置 MiniMax API Key") },
+        title = { Text("设置 Kimi API Key") },
         text = {
             Column {
                 Text(
-                    text = "请输入您的 MiniMax API Key。\n\n获取方式：\n1. 访问 platform.minimaxi.com\n2. 注册并创建 API Key\n3. 对话使用 MiniMax-M2.5，识图使用 MiniMax-Text-01\n\n注意：API Key 通常以 sk-api- 开头",
+                    text = "请输入您的 Kimi (Moonshot AI) API Key。\n\n获取方式：\n1. 访问 platform.moonshot.cn\n2. 注册并创建 API Key\n3. 对话使用 moonshot-v1-8k，识图使用 moonshot-v1-8k-vision-preview\n\n注意：API Key 以 sk- 开头",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Spacer(modifier = Modifier.height(12.dp))

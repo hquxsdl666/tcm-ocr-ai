@@ -1,12 +1,12 @@
 package com.tcm.app.utils
 
 object Constants {
-    // MiniMax API 配置
-    const val MINIMAX_BASE_URL = "https://api.minimaxi.com/"
-    const val MINIMAX_MODEL_CHAT = "MiniMax-M2.5"
-    const val MINIMAX_MODEL_OCR = "MiniMax-Text-01"  // 多模态（图片）使用 Text-01
-    
-    // 兼容旧代码的别名（RetrofitClient 等仍引用 BASE_URL / MODEL）
+    // Kimi (Moonshot AI) API 配置
+    const val MINIMAX_BASE_URL = "https://api.moonshot.cn/"
+    const val MINIMAX_MODEL_CHAT = "moonshot-v1-8k"
+    const val MINIMAX_MODEL_OCR = "moonshot-v1-8k-vision-preview"  // 图像识别使用视觉模型
+
+    // 兼容旧代码的别名
     const val KIMI_BASE_URL = MINIMAX_BASE_URL
     const val KIMI_MODEL = MINIMAX_MODEL_CHAT
     const val DEEPSEEK_BASE_URL = MINIMAX_BASE_URL
