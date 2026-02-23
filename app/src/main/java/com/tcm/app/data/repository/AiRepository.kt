@@ -39,7 +39,7 @@ class AiRepository(
             )
 
             val response = api.performOcr("Bearer ${getApiKey()}", request)
-            val content = response.choices.firstOrNull()?.message?.content
+            val content = response.choices?.firstOrNull()?.message?.content
                 ?: return Result.failure(Exception("Empty response"))
 
             // Extract JSON from markdown if present
@@ -68,8 +68,8 @@ class AiRepository(
 
             val request = ChatRequest(messages = fullMessages)
             val response = api.sendChatMessage("Bearer ${getApiKey()}", request)
-            
-            val content = response.choices.firstOrNull()?.message?.content
+
+            val content = response.choices?.firstOrNull()?.message?.content
                 ?: return Result.failure(Exception("Empty response"))
 
             Result.success(content)

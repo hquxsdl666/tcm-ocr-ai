@@ -32,25 +32,25 @@ data class ResponseFormat(
 
 // OCR Response
 data class OcrResponse(
-    val id: String,
-    val choices: List<Choice>,
-    val usage: Usage
+    val id: String = "",
+    val choices: List<Choice>? = null,  // Gson可能返回null，必须可空
+    val usage: Usage? = null
 )
 
 data class Choice(
-    val message: ResponseMessage,
-    val finish_reason: String
+    val message: ResponseMessage? = null,
+    val finish_reason: String = ""
 )
 
 data class ResponseMessage(
-    val role: String,
-    val content: String  // JSON string
+    val role: String = "",
+    val content: String = ""  // JSON string
 )
 
 data class Usage(
-    val prompt_tokens: Int,
-    val completion_tokens: Int,
-    val total_tokens: Int
+    val prompt_tokens: Int = 0,
+    val completion_tokens: Int = 0,
+    val total_tokens: Int = 0
 )
 
 // Parsed OCR Result
@@ -58,9 +58,9 @@ data class OcrResult(
     @SerializedName("prescription_name")
     val prescriptionName: String = "",
     @SerializedName("patient_name")
-    val patientName: String = "",  // 患者名称
-    val herbs: List<OcrHerb> = emptyList(),
-    val usage: OcrUsage = OcrUsage(),
+    val patientName: String? = null,  // Gson可能返回null
+    val herbs: List<OcrHerb>? = null,  // Gson可能返回null
+    val usage: OcrUsage? = null,       // Gson可能返回null
     val indications: String = "",
     @SerializedName("special_notes")
     val specialNotes: String = "",
@@ -96,12 +96,12 @@ data class ChatMessage(
 )
 
 data class ChatResponse(
-    val id: String,
-    val choices: List<ChatChoice>,
-    val usage: Usage
+    val id: String = "",
+    val choices: List<ChatChoice>? = null,  // Gson可能返回null
+    val usage: Usage? = null
 )
 
 data class ChatChoice(
-    val message: ChatMessage,
-    val finish_reason: String
+    val message: ChatMessage? = null,
+    val finish_reason: String = ""
 )

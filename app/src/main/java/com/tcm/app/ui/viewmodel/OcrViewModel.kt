@@ -161,9 +161,9 @@ class OcrViewModel(
             fun fromOcrResult(ocrResult: OcrResult): EditablePrescription {
                 return EditablePrescription(
                     name = ocrResult.prescriptionName,
-                    patientName = ocrResult.patientName ?: "",  // 从OCR结果获取患者名称
+                    patientName = ocrResult.patientName ?: "",
                     description = ocrResult.indications,
-                    herbs = ocrResult.herbs.mapIndexed { index, h ->
+                    herbs = (ocrResult.herbs ?: emptyList()).mapIndexed { index, h ->
                         EditableHerb(
                             name = h.name,
                             dosage = h.dosage,
@@ -172,9 +172,9 @@ class OcrViewModel(
                         )
                     },
                     usage = EditableUsage(
-                        decoctionMethod = ocrResult.usage.decoctionMethod,
-                        frequency = ocrResult.usage.frequency,
-                        dosagePerTime = ocrResult.usage.dosagePerTime
+                        decoctionMethod = ocrResult.usage?.decoctionMethod ?: "",
+                        frequency = ocrResult.usage?.frequency ?: "",
+                        dosagePerTime = ocrResult.usage?.dosagePerTime ?: ""
                     ),
                     specialNotes = ocrResult.specialNotes
                 )
