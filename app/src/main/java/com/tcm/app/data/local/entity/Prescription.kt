@@ -9,6 +9,7 @@ data class Prescription(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val name: String = "",
+    val patientName: String = "",  // 患者名称
     val description: String = "",
     val source: String = "",
     val createdAt: Date = Date(),

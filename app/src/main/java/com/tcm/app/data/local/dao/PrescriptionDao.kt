@@ -24,6 +24,7 @@ interface PrescriptionDao {
         SELECT * FROM prescriptions
         WHERE name LIKE '%' || :query || '%'
         OR description LIKE '%' || :query || '%'
+        OR patientName LIKE '%' || :query || '%'
         ORDER BY createdAt DESC
     """)
     fun searchByNameOrDescription(query: String): Flow<List<Prescription>>
@@ -42,4 +43,17 @@ interface PrescriptionDao {
 
     @Query("SELECT COUNT(*) FROM prescriptions")
     suspend fun getPrescriptionCount(): Int
+
+    // 统计相关查询
+    @Query("SELECT COUNT(*) FROM prescriptions")
+    fun getPrescriptionCountFlow(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM prescriptions WHERE isAiGenerated = 1")
+    fun getAiGeneratedCountFlow(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM prescriptions WHERE createdAt >= :startDate")
+    suspend fun getPrescriptionCountSince(startDate: Long): Int
+
+    @Query("SELECT * FROM prescriptions ORDER BY createdAt DESC LIMIT :limit")
+    suspend fun getRecentPrescriptions(limit: Int): List<Prescription>
 }

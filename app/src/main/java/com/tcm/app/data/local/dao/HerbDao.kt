@@ -29,4 +29,28 @@ interface HerbDao {
 
     @Query("SELECT DISTINCT name FROM herbs ORDER BY name")
     suspend fun getAllHerbNames(): List<String>
+
+    // 统计相关查询
+    @Query("SELECT COUNT(*) FROM herbs")
+    fun getTotalHerbCountFlow(): Flow<Int>
+
+    @Query("SELECT COUNT(DISTINCT name) FROM herbs")
+    fun getUniqueHerbCountFlow(): Flow<Int>
+
+    // 获取最常使用的药材及其使用次数
+    @Query("""
+        SELECT name, COUNT(*) as count FROM herbs 
+        GROUP BY name 
+        ORDER BY count DESC 
+        LIMIT :limit
+    """)
+    suspend fun getTopHerbs(limit: Int): List<HerbCount>
+
+    @Query("SELECT * FROM herbs")
+    suspend fun getAllHerbs(): List<Herb>
+
+    data class HerbCount(
+        val name: String,
+        val count: Int
+    )
 }

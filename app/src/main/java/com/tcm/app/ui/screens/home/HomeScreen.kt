@@ -21,7 +21,8 @@ fun HomeScreen(
     onNavigateToDetail: (Long) -> Unit,
     onNavigateToSearch: () -> Unit,
     onNavigateToAi: () -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToStatistics: () -> Unit  // 新增统计导航
 ) {
     val prescriptions by viewModel.allPrescriptions.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
@@ -121,6 +122,60 @@ fun HomeScreen(
                     }
                 }
             }
+
+            // 新增：快捷功能入口
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // 统计入口
+                OutlinedCard(
+                    onClick = onNavigateToStatistics,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            Icons.Default.BarChart,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("数据统计")
+                    }
+                }
+
+                // 搜索入口
+                OutlinedCard(
+                    onClick = onNavigateToSearch,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("搜索方剂")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Recent Prescriptions
             Text(

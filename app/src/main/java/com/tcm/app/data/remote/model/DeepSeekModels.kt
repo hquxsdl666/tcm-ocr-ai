@@ -57,6 +57,8 @@ data class Usage(
 data class OcrResult(
     @SerializedName("prescription_name")
     val prescriptionName: String = "",
+    @SerializedName("patient_name")
+    val patientName: String = "",  // 患者名称
     val herbs: List<OcrHerb> = emptyList(),
     val usage: OcrUsage = OcrUsage(),
     val indications: String = "",

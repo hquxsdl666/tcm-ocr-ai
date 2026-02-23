@@ -44,8 +44,8 @@ class AiViewModel(
                 ChatMessage(role = it.role, content = it.content)
             } + ChatMessage(role = "user", content = message)
             
-            // Get AI response with prescription library context
-            val prescriptionLibrary = prescriptionRepository.getAllPrescriptions().first().take(20)
+            // 获取完整的方剂库信息（包含药材、用法等详细信息）
+            val prescriptionLibrary = getDetailedPrescriptions()
             
             aiRepository.getAiResponse(contextMessages, prescriptionLibrary)
                 .onSuccess { response ->
@@ -66,7 +66,8 @@ class AiViewModel(
         viewModelScope.launch {
             _recommendationState.update { it.copy(isLoading = true, error = null) }
             
-            val prescriptionLibrary = prescriptionRepository.getAllPrescriptions().first()
+            // 获取完整的方剂库信息
+            val prescriptionLibrary = getDetailedPrescriptions()
             
             aiRepository.recommendPrescription(
                 symptoms = symptoms,
@@ -84,6 +85,25 @@ class AiViewModel(
                         it.copy(isLoading = false, error = error.message)
                     }
                 }
+        }
+    }
+
+    /**
+     * 获取包含详细信息的方剂列表
+     */
+    private suspend fun getDetailedPrescriptions(): List<AiRepository.PrescriptionWithDetails> {
+        return try {
+            prescriptionRepository.getAllPrescriptions().first()
+                .map { prescription ->
+                    AiRepository.PrescriptionWithDetails(
+                        prescription = prescription,
+                        herbs = prescriptionRepository.getPrescriptionWithDetails(prescription.id).first()?.herbs ?: emptyList(),
+                        usageInstruction = prescriptionRepository.getPrescriptionWithDetails(prescription.id).first()?.usageInstruction,
+                        symptoms = prescriptionRepository.getPrescriptionWithDetails(prescription.id).first()?.symptoms ?: emptyList()
+                    )
+                }
+        } catch (e: Exception) {
+            emptyList()
         }
     }
 

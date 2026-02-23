@@ -45,6 +45,12 @@ class OcrViewModel(
         }
     }
 
+    fun updatePatientName(patientName: String) {
+        _uiState.update { 
+            it.copy(editedPrescription = it.editedPrescription?.copy(patientName = patientName))
+        }
+    }
+
     fun updateDescription(description: String) {
         _uiState.update { 
             it.copy(editedPrescription = it.editedPrescription?.copy(description = description))
@@ -96,6 +102,7 @@ class OcrViewModel(
             
             val prescription = Prescription(
                 name = editable.name,
+                patientName = editable.patientName,  // 保存患者名称
                 description = editable.description,
                 isAiGenerated = false,
                 confidenceScore = _uiState.value.ocrResult?.confidence ?: 0f,
@@ -144,6 +151,7 @@ class OcrViewModel(
 
     data class EditablePrescription(
         val name: String = "",
+        val patientName: String = "",  // 患者名称
         val description: String = "",
         val herbs: List<EditableHerb> = emptyList(),
         val usage: EditableUsage = EditableUsage(),
@@ -153,6 +161,7 @@ class OcrViewModel(
             fun fromOcrResult(ocrResult: OcrResult): EditablePrescription {
                 return EditablePrescription(
                     name = ocrResult.prescriptionName,
+                    patientName = ocrResult.patientName ?: "",  // 从OCR结果获取患者名称
                     description = ocrResult.indications,
                     herbs = ocrResult.herbs.mapIndexed { index, h ->
                         EditableHerb(

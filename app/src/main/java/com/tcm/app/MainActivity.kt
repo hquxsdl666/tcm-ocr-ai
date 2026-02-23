@@ -24,10 +24,12 @@ import com.tcm.app.ui.screens.home.HomeScreen
 import com.tcm.app.ui.screens.ocr.OcrScreen
 import com.tcm.app.ui.screens.prescription.PrescriptionDetailScreen
 import com.tcm.app.ui.screens.search.SearchScreen
+import com.tcm.app.ui.screens.statistics.StatisticsScreen
 import com.tcm.app.ui.theme.TcmOcrAiTheme
 import com.tcm.app.ui.viewmodel.AiViewModel
 import com.tcm.app.ui.viewmodel.OcrViewModel
 import com.tcm.app.ui.viewmodel.PrescriptionViewModel
+import com.tcm.app.ui.viewmodel.StatisticsViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -60,6 +62,19 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private val statisticsViewModel: StatisticsViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return StatisticsViewModel(
+                    app.database.prescriptionDao(),
+                    app.database.herbDao(),
+                    app.prescriptionRepository
+                ) as T
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -74,7 +89,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         prescriptionViewModel = prescriptionViewModel,
                         ocrViewModel = ocrViewModel,
-                        aiViewModel = aiViewModel
+                        aiViewModel = aiViewModel,
+                        statisticsViewModel = statisticsViewModel
                     )
                 }
             }
@@ -87,7 +103,8 @@ fun TcmNavHost(
     navController: NavHostController,
     prescriptionViewModel: PrescriptionViewModel,
     ocrViewModel: OcrViewModel,
-    aiViewModel: AiViewModel
+    aiViewModel: AiViewModel,
+    statisticsViewModel: StatisticsViewModel
 ) {
     NavHost(
         navController = navController,
@@ -105,7 +122,8 @@ fun TcmNavHost(
                 },
                 onNavigateToSearch = { navController.navigate("search") },
                 onNavigateToAi = { navController.navigate("ai") },
-                onNavigateToSettings = { navController.navigate("settings") }
+                onNavigateToSettings = { navController.navigate("settings") },
+                onNavigateToStatistics = { navController.navigate("statistics") }  // 新增统计导航
             )
         }
         
@@ -148,6 +166,14 @@ fun TcmNavHost(
                 onBack = { navController.popBackStack() }
             )
         }
+
+        // 新增统计页面路由
+        composable("statistics") {
+            StatisticsScreen(
+                viewModel = statisticsViewModel,
+                onBack = { navController.popBackStack() }
+            )
+        }
         
         @OptIn(ExperimentalMaterial3Api::class)
         composable("settings") {
@@ -178,12 +204,12 @@ fun TcmNavHost(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "请前往 AI助手 页面设置 DeepSeek API Key",
+                        text = "请前往 AI助手 页面设置 MiniMax API Key",
                         style = MaterialTheme.typography.bodyMedium
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "获取方式：\n1. 访问 platform.deepseek.com\n2. 注册并创建 API Key\n3. 新用户有10元免费额度",
+                        text = "获取方式：\n1. 访问 platform.minimaxi.com\n2. 注册并创建 API Key\n3. 对话使用 MiniMax-M2.5，识图使用 MiniMax-Text-01",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }

@@ -34,7 +34,8 @@ class TcmApplication : Application() {
         aiRepository = AiRepository(
             api = RetrofitClient.deepSeekApi,
             chatHistoryDao = database.chatHistoryDao(),
-            context = this
+            context = this,
+            prescriptionRepository = prescriptionRepository  // 传递prescriptionRepository
         )
     }
 }

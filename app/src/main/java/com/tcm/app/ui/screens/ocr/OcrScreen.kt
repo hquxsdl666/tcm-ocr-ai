@@ -1,9 +1,11 @@
 package com.tcm.app.ui.screens.ocr
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.tcm.app.ui.components.*
 import com.tcm.app.ui.viewmodel.OcrViewModel
@@ -35,14 +38,41 @@ fun OcrScreen(
     var capturedBitmap by remember { mutableStateOf<Bitmap?>(null) }
     var showAddHerbDialog by remember { mutableStateOf(false) }
     var editingHerbIndex by remember { mutableStateOf<Int?>(null) }
+    var showPermissionDeniedDialog by remember { mutableStateOf(false) }
+    var cameraPhotoUri by remember { mutableStateOf<Uri?>(null) }
 
-    // Camera launcher
+    // 相机权限状态
+    var hasCameraPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+    // 权限请求启动器
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        hasCameraPermission = isGranted
+        if (!isGranted) {
+            showPermissionDeniedDialog = true
+        }
+    }
+
+    // Camera launcher - 使用TakePicture+FileProvider以支持全分辨率拍照
     val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicturePreview()
-    ) { bitmap ->
-        bitmap?.let {
-            capturedBitmap = it
-            viewModel.performOcr(it)
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            cameraPhotoUri?.let { uri ->
+                val bitmap = ImageUtils.uriToBitmap(context, uri)
+                bitmap?.let { bmp ->
+                    capturedBitmap = bmp
+                    viewModel.performOcr(bmp)
+                }
+            }
         }
     }
 
@@ -114,7 +144,20 @@ fun OcrScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     FilledTonalButton(
-                        onClick = { cameraLauncher.launch() },
+                        onClick = {
+                            if (hasCameraPermission) {
+                                val photoFile = File(context.cacheDir, "camera_${System.currentTimeMillis()}.jpg")
+                                val uri = FileProvider.getUriForFile(
+                                    context,
+                                    "${context.packageName}.fileprovider",
+                                    photoFile
+                                )
+                                cameraPhotoUri = uri
+                                cameraLauncher.launch(uri)
+                            } else {
+                                permissionLauncher.launch(Manifest.permission.CAMERA)
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(120.dp)
@@ -151,6 +194,20 @@ fun OcrScreen(
                 }
             }
         }
+    }
+
+    // Permission Denied Dialog
+    if (showPermissionDeniedDialog) {
+        AlertDialog(
+            onDismissRequest = { showPermissionDeniedDialog = false },
+            title = { Text("需要相机权限") },
+            text = { Text("拍照识别功能需要访问相机权限。请在设置中开启权限后重试。") },
+            confirmButton = {
+                TextButton(onClick = { showPermissionDeniedDialog = false }) {
+                    Text("确定")
+                }
+            }
+        )
     }
 
     // Add/Edit Herb Dialog
@@ -213,6 +270,17 @@ private fun OcrResultEditor(
                 label = { Text("方剂名称") },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("如：四君子汤") }
+            )
+            
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Patient Name - 新增患者名称输入
+            OutlinedTextField(
+                value = prescription.patientName,
+                onValueChange = { viewModel.updatePatientName(it) },
+                label = { Text("患者姓名") },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text("如：张三") }
             )
             
             Spacer(modifier = Modifier.height(16.dp))

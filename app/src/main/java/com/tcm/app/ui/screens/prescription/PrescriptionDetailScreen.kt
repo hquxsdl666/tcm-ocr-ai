@@ -90,6 +90,27 @@ fun PrescriptionDetailScreen(
                     
                     Spacer(modifier = Modifier.height(8.dp))
                     
+                    // 患者名称显示
+                    if (detail.prescription.patientName.isNotBlank()) {
+                        Row(
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Person,
+                                contentDescription = null,
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "患者：${detail.prescription.patientName}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+                    
                     Text(
                         text = "创建于: ${SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(detail.prescription.createdAt)}",
                         style = MaterialTheme.typography.bodySmall,

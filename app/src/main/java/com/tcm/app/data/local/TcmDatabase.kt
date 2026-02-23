@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.tcm.app.data.local.dao.*
 import com.tcm.app.data.local.entity.*
 
@@ -16,7 +18,7 @@ import com.tcm.app.data.local.entity.*
         Symptom::class,
         ChatHistory::class
     ],
-    version = 1,
+    version = 2,  // 升级数据库版本
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -31,6 +33,13 @@ abstract class TcmDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: TcmDatabase? = null
 
+        // 从版本1升级到版本2的迁移：添加patientName字段
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE prescriptions ADD COLUMN patientName TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         fun getDatabase(context: Context): TcmDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -38,6 +47,7 @@ abstract class TcmDatabase : RoomDatabase() {
                     TcmDatabase::class.java,
                     "tcm_database"
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
